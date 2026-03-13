@@ -12,7 +12,7 @@ from vastai import (
 )
 
 MODEL_SERVER_URL  = "http://127.0.0.1"
-MODEL_SERVER_PORT = 18000
+MODEL_SERVER_PORT = 18080
 MODEL_LOG_FILE    = "/var/log/translate.log"
 
 worker_config = WorkerConfig(
