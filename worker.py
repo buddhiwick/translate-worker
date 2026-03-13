@@ -1,0 +1,44 @@
+"""PyWorker config for the Legion translation model server.
+
+Configures the Vast serverless PyWorker to proxy requests to the
+translation model server running on the same instance.
+"""
+from vastai import (
+    Worker,
+    WorkerConfig,
+    HandlerConfig,
+    BenchmarkConfig,
+    LogActionConfig,
+)
+
+MODEL_SERVER_URL  = "http://127.0.0.1"
+MODEL_SERVER_PORT = 18000
+MODEL_LOG_FILE    = "/var/log/translate.log"
+
+worker_config = WorkerConfig(
+    model_server_url=MODEL_SERVER_URL,
+    model_server_port=MODEL_SERVER_PORT,
+    model_log_file=MODEL_LOG_FILE,
+    handlers=[
+        HandlerConfig(
+            route="/parse",
+            allow_parallel_requests=False,
+            max_queue_time=30.0,
+            workload_calculator=lambda payload: 100.0,
+            benchmark_config=BenchmarkConfig(
+                dataset=[
+                    {"sentence": "find errors", "parser": "benepar"},
+                    {"sentence": "find errors", "parser": "dep"},
+                ],
+                runs=1,
+                concurrency=1,
+            ),
+        ),
+    ],
+    log_action_config=LogActionConfig(
+        on_load=["Translation server ready"],
+        on_error=["Traceback (most recent call last):", "RuntimeError:"],
+    ),
+)
+
+Worker(worker_config).run()
