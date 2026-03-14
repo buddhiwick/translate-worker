@@ -27,8 +27,11 @@ worker_config = WorkerConfig(
             workload_calculator=lambda payload: 100.0,
             benchmark_config=BenchmarkConfig(
                 dataset=[
-                    {"sentence": "find errors", "parser": "benepar"},
-                    {"sentence": "find errors", "parser": "dep"},
+                    {"sentence": "Add a fallback for client task id when constructing branch names", "parser": "benepar"},
+                    {"sentence": "Add a fallback for client task id when constructing branch names", "parser": "stanza"},
+                    {"sentence": "Add a fallback for client task id when constructing branch names", "parser": "supar"},
+                    {"sentence": "Add a fallback for client task id when constructing branch names", "parser": "roberta"},
+                    {"sentence": "Add a fallback for client task id when constructing branch names", "parser": "dep"},
                 ],
                 runs=1,
                 concurrency=1,
