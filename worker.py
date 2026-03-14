@@ -19,6 +19,7 @@ worker_config = WorkerConfig(
     model_server_url=MODEL_SERVER_URL,
     model_server_port=MODEL_SERVER_PORT,
     model_log_file=MODEL_LOG_FILE,
+    model_healthcheck_url=f"{MODEL_SERVER_URL}:{MODEL_SERVER_PORT}/health",
     handlers=[
         HandlerConfig(
             route="/parse",
