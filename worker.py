@@ -2,6 +2,11 @@
 
 Configures the Vast serverless PyWorker to proxy requests to the
 translation model server running on the same instance.
+
+NOTE: This file is NOT included in the Docker image. The canonical copy
+lives at https://github.com/buddhiwick/translate-worker and is cloned
+by the Vast platform's start_server.sh via the PYWORKER_REPO env var.
+This copy is kept here for reference; edits must be pushed to that repo.
 """
 from vastai import (
     Worker,
@@ -25,7 +30,7 @@ worker_config = WorkerConfig(
             route="/parse",
             allow_parallel_requests=False,
             max_queue_time=30.0,
-            workload_calculator=lambda payload: 100.0,
+            workload_calculator=lambda payload: 100.0 * len(payload.get("sentences", [payload.get("sentence", "")])),
             benchmark_config=BenchmarkConfig(
                 dataset=[
                     {"sentence": "Add a fallback for client task id when constructing branch names", "parser": "benepar"},
